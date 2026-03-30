@@ -8,7 +8,7 @@ sap.ui.define(
     "sap/ui/model/Sorter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/FilterType"
+    "sap/ui/model/FilterType",
   ],
   function (
     Messaging,
@@ -35,7 +35,7 @@ sap.ui.define(
           oViewModel = new JSONModel({
             busy: false,
             hasUIChanges: false,
-            usernameEmpty: true,
+            usernameEmpty: false,
             order: 0,
           });
 
@@ -66,6 +66,35 @@ sap.ui.define(
             return true;
           }
         });
+      },
+
+      onDelete: function () {
+        var oContext,
+          oSelected = this.byId("peopleList").getSelectedItem(),
+          sUserName;
+
+        if (oSelected) {
+          oContext = oSelected.getBindingContext();
+          sUserName = oContext.getProperty("UserName");
+          oContext.delete().then(
+            function () {
+              MessageToast.show(
+                this._getText("deletionSuccessMessage", sUserName),
+              );
+            }.bind(this),
+            function (oError) {
+              this._setUIChanges();
+              if (oError.canceled) {
+                MessageToast.show(
+                  this._getText("deletionRestoredMessage", sUserName),
+                );
+                return;
+              }
+              MessageBox.error(oError.message + ": " + sUserName);
+            }.bind(this),
+          );
+          this._setUIChanges(true);
+        }
       },
 
       onInputChange: function (oEvt) {
