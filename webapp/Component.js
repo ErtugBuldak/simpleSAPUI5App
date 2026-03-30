@@ -1,43 +1,28 @@
-sap.ui.define(
-  [
-    "sap/ui/core/UIComponent",
-    "sap/ui/model/json/JSONModel",
-    "sap/ui/Device"
-  ],
-  (UIComponent, JSONModel, Device) => {
-    "use strict";
+sap.ui.define([
+	"sap/ui/core/UIComponent",
+	"sap/ui/core/tutorial/odatav4/model/models"
+], function (UIComponent, models) {
+	"use strict";
 
-    return UIComponent.extend("ui5.walkthrough.Component", {
-      metadata: {
-        interfaces: ["sap.ui.core.IAsyncContentCreation"],
-        manifest: "json"
-      },
+	return UIComponent.extend("sap.ui.core.tutorial.odatav4.Component", {
 
-      init() {
-        // call the init function of the parent
-        UIComponent.prototype.init.apply(this, arguments);
+		metadata : {
+			interfaces : ["sap.ui.core.IAsyncContentCreation"],
+			manifest : "json"
+		},
 
-        // set data model
-        const oData = {
-          recipient: {
-            name: "World",
-          },
-        };
-        const oModel = new JSONModel(oData);
-        this.setModel(oModel);
+		/**
+		 * The component is initialized by UI5 automatically during the startup of the app and calls
+		 * the init method once.
+		 * @public
+		 * @override
+		 */
+		init : function () {
+			// call the base component's init function
+			UIComponent.prototype.init.apply(this, arguments);
 
-        // set device model
-        const oDeviceModel = new JSONModel(Device);
-        oDeviceModel.setDefaultBindingMode("OneWay");
-        this.setModel(oDeviceModel, "device");
-
-        // create the views based on the url/hash
-        this.getRouter().initialize();
-      },
-
-      getContentDensityClass() {
-			  return Device.support.touch ? "sapUiSizeCozy" : "sapUiSizeCompact";
-		  }
-    });
-  },
-);
+			// set the device model
+			this.setModel(models.createDeviceModel(), "device");
+		}
+	});
+});

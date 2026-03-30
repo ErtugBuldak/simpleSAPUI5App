@@ -1,12 +1,13 @@
 {
-  "name": "ui5.walkthrough",
+  "name": "odata-v4-tutorial",
+  "private": true,
   "version": "1.0.0",
-  "description": "The UI5 walkthrough application",
+  "author": "SAP SE",
+  "description": "UI5 Demo App - ODataV4 Tutorial",
   "scripts": {
-    "start": "ui5 serve -o test/mockServer.html"
+    "start": "ui5 serve --open index.html"
   },
   "devDependencies": {
-    "@ui5/cli": "^4.0.49",
-    "ui5-middleware-simpleproxy": "^3.7.0"
+    "@ui5/cli": "^4"
   }
 }

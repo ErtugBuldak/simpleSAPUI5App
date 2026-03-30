@@ -1,100 +1,67 @@
 {
-  "_version": "2.6.0",
-  "sap.app": {
-		"id": "ui5.walkthrough",
-		"i18n": "i18n/i18n.properties",
-		"title": "{{appTitle}}",
-		"description": "{{appDescription}}",
+	"_version": "2.0.0",
+	"sap.app": {
+		"ach" : "CA-UI5-COR",
+		"id": "sap.ui.core.tutorial.odatav4",
 		"type": "application",
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				""
+			],
+			"fallbackLocale": ""
+		},
 		"applicationVersion": {
 			"version": "1.0.0"
 		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
 		"dataSources": {
-			"invoiceRemote": {
-				"uri": "V2/Northwind/Northwind.svc/",
+			"default": {
+				"uri": "https://services.odata.org/TripPinRESTierService/(S(id))/",
 				"type": "OData",
 				"settings": {
-					"odataVersion": "2.0"
+					"odataVersion": "4.0"
 				}
 			}
 		}
-  },
-  "sap.ui": {
-	"technology": "UI5",
-	"deviceTypes": {
-		"desktop": true,
-		"tablet": true,
-		"phone": true
-	}
-  },
-  "sap.ui5": {
+	},
+	"sap.ui": {
+		"technology": "UI5"
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "sap.ui.core.tutorial.odatav4.view.App",
+			"type": "XML",
+			"id": "appView"
+		},
 		"dependencies": {
-			"minUI5Version": "1.146.0",
+			"minUI5Version": "1.136.0",
 			"libs": {
-			"sap.ui.core": {},
-			"sap.m": {}
+				"sap.m": {},
+				"sap.ui.core": {}
 			}
 		},
 		"models": {
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "ui5.walkthrough.i18n.i18n",
-					"supportedLocales": [""],
+					"bundleName": "sap.ui.core.tutorial.odatav4.i18n.i18n",
+					"supportedLocales": [
+						""
+					],
 					"fallbackLocale": ""
 				}
 			},
-			"invoice" : {
-				"dataSource": "invoiceRemote"
-			}
-		},
-		"rootView": {
-			"viewName": "ui5.walkthrough.view.App",
-			"type": "XML",
-			"id": "app"
-		},
-		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
+			"": {
+				"dataSource": "default",
+				"preload": true,
+				"settings": {
+					"autoExpandSelect": true,
+					"earlyRequests": true,
+					"operationMode": "Server"
 				}
-			]
-		},
-		"routing": {
-      "config": {
-        "routerClass": "sap.m.routing.Router",
-        "type": "View",
-        "viewType": "XML",
-        "path": "ui5.walkthrough.view",
-        "controlId": "app",
-        "controlAggregation": "pages"
-      },
-      "routes": [
-        {
-          "pattern": "",
-          "name": "overview",
-          "target": "overview"
-        },
-        {
-          "pattern": "detail/{invoicePath}",
-          "name": "detail",
-          "target": "detail"
-        }
-      ],
-      "targets": {
-        "overview": {
-          "id": "overview",
-          "name": "Overview"
-        },
-        "detail": {
-          "id": "detail",
-          "name": "Detail"
-        }
-      }
-    },
-		"contentDensities": {
-      "compact": true,
-      "cozy": true
-    }
-  }
+			}
+		}
+	}
 }
